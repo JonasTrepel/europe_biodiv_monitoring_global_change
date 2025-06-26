@@ -190,8 +190,8 @@ r_mat_trend_p_2k <- resample(x = r_mat_trend_p_proj, y = template_r,
 plot(r_mat_trend_p_2k)
 
 
-## 2. Precipitation ----------------------------------------------
-prec_files <- list.files("data/spatial_data/time_series_raster/era5_temperature",
+## 3. Precipitation ----------------------------------------------
+prec_files <- list.files("data/spatial_data/time_series_raster/era5_precipitation",
                         pattern = ".tif", 
                         full.names = T) 
 
@@ -221,9 +221,9 @@ for(file in unique(prec_files)){
 }
 
 prec_cols <- grep("prec", names(dt_prec), value = TRUE)
-y_prec <- as.precrix(dt_prec[, prec_cols])
+y_prec <- as.matrix(dt_prec[, prec_cols])
 
-coords_prec <- as.precrix(dt_prec[, c("x", "y")])
+coords_prec <- as.matrix(dt_prec[, c("x", "y")])
 
 
 ar_fit_prec <- fitAR_map(Y = y_prec, coords = coords_prec)
