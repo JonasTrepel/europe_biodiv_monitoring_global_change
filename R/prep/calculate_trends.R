@@ -241,6 +241,7 @@ coords_prec <- as.matrix(dt_prec[, c("x", "y")])
 
 ar_fit_prec <- fitAR_map(Y = y_prec, coords = coords_prec)
 dt_prec$ar_coef <- coefficients(ar_fit_prec)[, "t"]
+dt_prec$ar_p_value <- ar_fit_prec$pvals[, 2]
 
 dt_prec %>% 
   ggplot(aes(x = x, y = y, col = ar_coef)) + 
