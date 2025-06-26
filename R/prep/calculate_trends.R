@@ -169,12 +169,25 @@ dt_mat %>%
 
 
 tmp_mat <- rast(mat_files[13])
+plot(tmp_mat)
 
-r_mat_trend <- setValues(tmp_mat, dt_n_depo$ar_coef)
+r_mat_trend <- rast(dt_mat[, c("x", "y", "ar_coef")], type = "xyz") 
+crs(r_mat_trend) <- crs(tmp_mat)
 plot(r_mat_trend)
 
-r_mat_trend_p <- setValues(tmp_mat, dt_n_depo$ar_p_value)
+writeRaster(r_mat_trend, 
+            "data/spatial_data/global_change_layers/trend_mat.tif",
+            overwrite= T)
+
+
+r_mat_trend_p <- rast(dt_mat[, c("x", "y", "ar_p_value")], type = "xyz") 
+crs(r_mat_trend_p) <- crs(tmp_mat)
 plot(r_mat_trend_p)
+
+writeRaster(r_mat_trend_p, 
+            "data/spatial_data/global_change_layers/trend_p_val_mat.tif",
+            overwrite= T)
+
 
 #Resample
 r_mat_trend_proj <- project(r_mat_trend, template_r)
@@ -238,20 +251,32 @@ dt_prec %>%
   labs(y = "Latitude", x = "Longitude", col = expression(beta[1]))
 
 tmp_prec <- rast(prec_files[13])
+plot(tmp_prec)
 
-r_prec_trend <- setValues(tmp_prec, dt_n_depo$ar_coef)
+r_prec_trend <- rast(dt_prec[, c("x", "y", "ar_coef")], type = "xyz") 
+crs(r_prec_trend) <- crs(tmp_prec)
 plot(r_prec_trend)
 
-r_prec_trend_p <- setValues(tmp_prec, dt_n_depo$ar_p_value)
+writeRaster(r_prec_trend, 
+            "data/spatial_data/global_change_layers/trend_precipitation.tif",
+            overwrite= T)
+
+
+r_prec_trend_p <- rast(dt_prec[, c("x", "y", "ar_p_value")], type = "xyz") 
+crs(r_prec_trend_p) <- crs(tmp_prec)
 plot(r_prec_trend_p)
 
+writeRaster(r_prec_trend_p, 
+            "data/spatial_data/global_change_layers/trend_p_val_precipitation.tif",
+            overwrite= T)
+
+#Resample
 r_prec_trend_proj <- project(r_prec_trend, template_r)
 r_prec_trend_2k <- resample(x = r_prec_trend_proj, y = template_r, 
                            filename = "data/spatial_data/global_change_layers/trend_prec_2k.tif", 
                            overwrite = T)
 plot(r_prec_trend_2k)
 
-#Resample
 r_prec_trend_p_proj <- project(r_prec_trend_p, template_r)
 r_prec_trend_p_2k <- resample(x = r_prec_trend_p_proj, y = template_r, 
                              filename = "data/spatial_data/global_change_layers/trend_p_val_prec_2k.tif", 
