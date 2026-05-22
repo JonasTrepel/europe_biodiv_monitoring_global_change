@@ -1,7 +1,7 @@
 #function to monitor GEE task 
 
 monitor_gee_task <- function(pattern = NA, path = "rgee_backup", last_sleep_time = 600, 
-                             mail = "jonas.trepel@bio.au.dk") {
+                             mail = "jonas.trepel@gmail.com") {
   
   drive_auth(email = mail)
   
@@ -11,14 +11,14 @@ monitor_gee_task <- function(pattern = NA, path = "rgee_backup", last_sleep_time
     
     # Check if the folder is empty
     if (n_distinct(drive_files) == 0) {
-      Sys.sleep(30)
+      Sys.sleep(10)
       print(paste0("Attempt ", i, ": Drive still empty"))
     } else {
       print("Files found:")
       print(drive_files)
       
       if (n_distinct(drive_files) < 8) {
-        Sys.sleep(150) # to make sure all tiles are there
+        Sys.sleep(10) # to make sure all tiles are there
         drive_files <- drive_ls(path = path, pattern = pattern) %>%
           dplyr::select(name)
       }
