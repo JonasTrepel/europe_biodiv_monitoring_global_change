@@ -8,8 +8,8 @@ library(terra)
 source("R/functions/monitor_gee_task.R")
 
 #  
-#rgee_env_dir <- c("C:\\Users\\au713983\\.conda\\envs\\rgee_env")
-#reticulate::use_python(rgee_env_dir, required=T)
+rgee_env_dir <- c("C:\\Users\\au713983\\.conda\\envs\\rgee_env")
+reticulate::use_python(rgee_env_dir, required=T)
 #ee_clean_user_credentials()
 #ee$Authenticate(auth_mode='notebook')
 ee$Initialize(project = "jonas-trepel")
