@@ -122,22 +122,3 @@ plot(r_corine_2018)
 file.remove(tmp_tiles_2018)
 googledrive::drive_rm(unique(drive_files_2018$name))
 googledrive::drive_rm("rgee_backup_corine_2018")
-
-
-
-
-
-
-path_name <- paste0("data/spatial_data/time_series_raster/era5_temperature/mat_", year, ".tif")
-
-
-drive_download(file = drive_files$name, path = path_name, overwrite = TRUE)
-
-
-googledrive::drive_rm(unique(drive_files$name))
-googledrive::drive_empty_trash()
-
-r <- rast(path_name)
-plot(r, main = paste0(year))
-
-print(paste0(year, " done"))
