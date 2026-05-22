@@ -89,3 +89,55 @@ dt_reclass <- rbind(
 #reclassify raster
 
 r_class <- classify(r_stack, rcl = dt_reclass)
+r_class[r_class == 999] <- NA
+names(r_class) <- c("intensive_2000", "intensive_2018")
+plot(r_class)
+
+#get template in here 
+template_r <- rast("data/spatial_data/martina_layers/lu_change_percent_2km.tif")
+plot(template_r)
+
+
+r_class_proj <- project(r_class, template_r)
+r_class_proj[[1]]
+r_intensive_2000_2k <- resample(x = r_class_proj[[1]], y = template_r, 
+                                method = "mean", 
+                                filename = "data/spatial_data/global_change_layers/intensive_landuse_2000_2k.tif",
+                                overwrite = T)
+plot(r_intensive_2000_2k)
+
+
+r_intensive_2018_2k <- resample(x = r_class_proj[[2]], y = template_r, 
+                                method = "mean", 
+                                filename = "data/spatial_data/global_change_layers/intensive_landuse_2018_2k.tif", 
+                                overwrite = T)
+plot(r_intensive_2018_2k)
+
+r_land_use_change = r_intensive_2018_2k - r_intensive_2000_2k
+names(r_land_use_change) <- "lu_change_percent_2km"
+plot(r_land_use_change)
+#r_land_use_change <- mask(r_land_use_change, template_r)
+
+writeRaster(r_land_use_change,
+            filename = "data/spatial_data/global_change_layers/corine_landuse_change_2000_2018_2k.tif")
+
+
+dt_change <- as.data.frame(r_land_use_change, xy = TRUE, na.rm = TRUE)
+
+# Symmetric limits around zero
+max_abs <- max(abs(dt_change$lu_change_percent_2km))
+
+# Plot
+ggplot(dt_change) +
+  geom_raster(aes(x = x,y = y, fill = lu_change_percent_2km)) +
+  scale_fill_gradient2(
+    low = "navy",
+    mid = "white",
+    high = "darkred",
+    midpoint  = 0,
+    limits = c(-max_abs, max_abs),
+    name = "Change") +
+  coord_equal() +
+  theme_void() +
+  labs(title = "Change in intensive land use (2000–2018)" )
+
