@@ -29,7 +29,7 @@ for(year in years){
   
   plot(total_n_dep, main = paste0(year))
   
-  writeRaster(total_n_dep, paste0("data/spatial_data/time_series_raster/europe_n_depo_", year, ".tif"), overwrite=TRUE)
+  writeRaster(total_n_dep, paste0("data/spatial_data/time_series_raster/n_deposition/europe_n_depo_", year, ".tif"), overwrite=TRUE)
   
 }
 
