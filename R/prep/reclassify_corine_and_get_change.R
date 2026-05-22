@@ -121,6 +121,20 @@ plot(r_land_use_change)
 writeRaster(r_land_use_change,
             filename = "data/spatial_data/global_change_layers/corine_landuse_change_2000_2018_2k.tif")
 
+r_mean_landuse_intensity_2k <-  mean(c(r_intensive_2018_2k, r_intensive_2000_2k), na.rm = T)
+names(r_mean_landuse_intensity_2k) <- "lu_mean_percent_2km"
+plot(r_mean_landuse_intensity_2k)
+
+writeRaster(r_mean_landuse_intensity_2k,
+            filename = "data/spatial_data/global_change_layers/corine_landuse_mean_2000_2018_2k.tif")
+
+
+#r_land_use_change <- mask(r_land_use_change, template_r)
+
+writeRaster(r_land_use_change,
+            filename = "data/spatial_data/global_change_layers/corine_landuse_change_2000_2018_2k.tif")
+
+
 
 dt_change <- as.data.frame(r_land_use_change, xy = TRUE, na.rm = TRUE)
 

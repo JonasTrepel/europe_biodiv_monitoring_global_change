@@ -76,7 +76,7 @@ dt_n_depo %>%
   scale_color_gradient2(high = "red", low = "blue", 
                         mid = "grey90", midpoint = 0) + 
   guides(fill = "none") + 
-  labs(y = "Latitude", x = "Longitude", col = expression(beta[1]))
+  labs(y = "Latitude", x = "Longitude", col = "coefficient\nestimate")
 
 
 r_n_depo_trend <- setValues(r_mean_n, dt_n_depo$ar_coef)
